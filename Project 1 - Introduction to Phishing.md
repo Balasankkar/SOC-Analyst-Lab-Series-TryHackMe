@@ -13,7 +13,7 @@ The first step in the investigation began with reviewing the SOC Simulator dashb
 
 ---
 
-
+![Introduction to Phishing – Initial Alert](https://github.com/Balasankkar/SOC-Analyst-Lab-Series-TryHackMe/blob/8c9a444bfd39f7cf1be450daf25cd67c67935752/Screenshots/Screenshot%201.png)
 *Figure 1 — Initial alert detected in SOC Simulator: “Inbound Email Containing Suspicious External Link”*
 
 ## 🧩 Alert Triage and Initial Analysis
@@ -55,7 +55,7 @@ After reviewing these details, I **assigned the alert to myself** to proceed wit
 
 ---
 
-![Splunk Alert Queue — Phishing Alert Details](../images/phishing/02-alert-details.png)
+![Splunk Alert Queue — Phishing Alert Details](https://github.com/Balasankkar/SOC-Analyst-Lab-Series-TryHackMe/blob/8c9a444bfd39f7cf1be450daf25cd67c67935752/Screenshots/Screenshot%202.png)
 *Figure 2 — Alert queue in Splunk showing phishing alert details and metadata before investigation.*
 
 ## 🧮 Log Analysis in Splunk
@@ -77,6 +77,9 @@ This allowed me to view all email events associated with the sender within a **t
   > *"Action Required: Finalize Your Onboarding Profile"*
 - The embedded link inside both messages pointed to the same suspicious domain:
 
+![Splunk Search — Email Log Analysis](https://github.com/Balasankkar/SOC-Analyst-Lab-Series-TryHackMe/blob/8c9a444bfd39f7cf1be450daf25cd67c67935752/Screenshots/Screenshot%203.png)
+*Figure 3 — Splunk search results showing two inbound emails sent from `onboarding@hrconnex.thm` within the past two hours.*
+
 ## 🧩 Correlating Events and Identifying Involved Users
 
 After confirming that the phishing email originated from `onboarding@hrconnex.thm`, I expanded the investigation in **Splunk** to search for other related events within the same time frame.  
@@ -94,11 +97,9 @@ During the search, I discovered an internal email thread involving two employees
 
 In this message, **Hannah Harris** from the HR department reached out to **Jacob Carter** from IT support, mentioning that **Julia Garcia**, a new hire, hadn’t received her onboarding email from **hrconnex.thm** — the same domain identified in the phishing alert.
 
-This strongly suggests that the phishing email successfully reached its target (Julia Garcia) and was credible enough to cause internal confusion, as employees believed the message originated from a legitimate HR partner.
-
 ---
 
-![Splunk Events — Internal Discussion About Missing Onboarding Email](../images/phishing/04-splunk-related-events.png)
+![Splunk Events — Internal Discussion About Missing Onboarding Email](https://github.com/Balasankkar/SOC-Analyst-Lab-Series-TryHackMe/blob/8c9a444bfd39f7cf1be450daf25cd67c67935752/Screenshots/Screenshot%204.png)
 *Figure 4 — Splunk logs showing internal communication referencing the suspicious hrconnex.thm domain.*
 
 ---
@@ -113,26 +114,15 @@ From the database:
 - **Jacob Carter** — IT Support (`j.carter@thetrydaily.thm`)  
 - **Julia Garcia** — Content Department (`j.garcia@thetrydaily.thm`)
 
-This cross-verification validated that all three are legitimate internal employees, reinforcing that the phishing campaign was **targeted toward HR and onboarding processes**, exploiting organizational trust and internal communication workflows.
+This cross-verification validated that all three are legitimate internal employees.
 
 ---
 
-![Company Documentation — Employee Directory](../images/phishing/05-company-documentation.png)
+![Company Documentation — Employee Directory](https://github.com/Balasankkar/SOC-Analyst-Lab-Series-TryHackMe/blob/8c9a444bfd39f7cf1be450daf25cd67c67935752/Screenshots/Screenshot%205.png)
 *Figure 5 — Company documentation verifying the roles of users involved in the phishing incident.*
 
 ---
 
-### 🧠 Analysis Notes
-
-- The phishing email exploited internal onboarding processes, a **social engineering vector** often used in spear-phishing.  
-- The attacker impersonated a third-party HR partner (`hrconnex.thm`), likely to appear trustworthy.  
-- The internal follow-up emails demonstrate how **phishing can induce organizational confusion**, potentially leading to credential compromise if not caught early.  
-- This evidence also indicates that the SIEM detection was timely, preventing potential lateral spread or user interaction with the malicious link.
-
----
-
-### ✅ Next Step
-The next stage involved investigating the **phishing link itself** (`https://hrconnex.thm/onboarding/...`) to determine whether it resolved to a known malicious IP, was recently registered, or hosted a credential phishing page.
 ## 🧪 URL and Domain Analysis
 
 After correlating the phishing-related events in Splunk and verifying the internal employee communications, the next step was to determine whether the suspicious URL in the phishing email was indeed malicious or a false positive.  
@@ -148,7 +138,7 @@ This tool is designed to assess domains, URLs, or files for known indicators of 
 
 The screenshot below shows the Analyst VM environment before beginning the analysis.
 
-![Analyst VM Environment](../images/phishing/06-analyst-vm.png)
+![Analyst VM Environment](https://github.com/Balasankkar/SOC-Analyst-Lab-Series-TryHackMe/blob/8c9a444bfd39f7cf1be450daf25cd67c67935752/Screenshots/Screenshot%206.png)
 *Figure 6 — Analyst VM within the SOC Simulator, prepared for controlled URL inspection.*
 
 ---
@@ -165,7 +155,7 @@ The URL/IP security check was executed to determine if the domain `hrconnex.thm`
 
 No malicious indicators or reputation warnings were detected for this domain.
 
-![TryDetectThis — URL Analysis Result](../images/phishing/07-trydetectthis-analysis.png)
+![TryDetectThis — URL Analysis Result](https://github.com/Balasankkar/SOC-Analyst-Lab-Series-TryHackMe/blob/8c9a444bfd39f7cf1be450daf25cd67c67935752/Screenshots/Screenshot%207.png)
 *Figure 7 — TryDetectThis URL scan result showing the link as clean.*
 
 ---
@@ -181,13 +171,6 @@ No malicious indicators or reputation warnings were detected for this domain.
 - Based on this evidence, the alert was reclassified as a **False Positive (FP)**.
 
 ---
-
-### ✅ Conclusion for This Stage
-
-The **SIEM alert** successfully identified a potential phishing attempt, but further analysis confirmed the link was safe.  
-This reinforces the SOC best practice of **validating alerts through multiple data sources and sandbox testing** before taking containment actions.
-
-The incident was closed as **False Positive**, and the investigation documented as part of the analyst’s learning record in the SOC Simulator.
 
 ## 🧾 Incident Closure and Summary Report
 
@@ -248,7 +231,7 @@ The phishing alert initially raised by the SIEM was caused by an **inbound email
 
 ---
 
-![SOC Simulator – Case Report Submission](../images/phishing/08-incident-report.png)
+![SOC Simulator – Case Report Submission](https://github.com/Balasankkar/SOC-Analyst-Lab-Series-TryHackMe/blob/8c9a444bfd39f7cf1be450daf25cd67c67935752/Screenshots/Screenshot%208.png)
 *Figure 8 — Case report form in TryHackMe SOC Simulator showing alert closure as False Positive.*
 
 ---
